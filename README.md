@@ -1,56 +1,238 @@
-# Airtable timeline assignment
+# Timeline Assignment
 
-## Expected implementation time:
+A timeline visualization app for displaying events in an efficient, space-optimized layout with full CRUD functionality.
 
-4 hours
+## Features
 
-## High level objective:
+- **Timeline Visualization**: Events displayed in space-efficient lanes using a custom lane assignment algorithm
+- **Event Management**: Full CRUD operations (Create, Read, Update, Delete) with intuitive UI
+- **Search Functionality**: Real-time search with database queries
+- **Swipe to Delete**: Gesture-based event deletion
+- **Material Design 3**: Modern UI with floating action button and bottom sheet editing
+- **Offline First**: Room database for local storage with reactive UI updates
+- **Clean Architecture**: MVVM-VI pattern with proper separation of concerns
+- **Multi-Module Architecture**: Organized into feature-based modules with convention plugins
 
-Design and implement an app for visualizing events on a timeline.
+## Time Spent
 
-## Details:
+**Total: Approximately 3 hours and 50 minutes****
 
-The timeline app will be used to display a number of events. Each event has at least 3 main pieces of information - the name,
-the start date, and the end date. The events dates could overlap. The size of the event in the timeline should be
-proportional to the number of days the event lasts.
+Breakdown:
+- Initial planning and architecture decisions: 30 minutes
+- Core timeline lane assignment algorithm: 45 minutes
+- UI implementation and design system integration: 90 minutes
+- Room database + Dagger Hilt setup: 45 minutes
+- CRUD functionality and bottom sheet implementation: 30 minutes
+- Testing on physical device and polish: 15 minutes
 
-The final design is up to you but your timeline app should attempt to arrange items in compact, space-efficient lanes.
-If event A ends before event B starts, these events can share a lane.
+**Note: Unit tests were written post-submission as a learning exercise.**
 
-The start and end dates will be formatted as `Date` objects. You don't need to worry about hours, minutes, seconds, or time zones.
+## What I Like About My Implementation
 
-You can assume every event's end date is the same or later than its start date.
+### Architecture Excellence
+- **Clean MVVM-VI Pattern**: Pure composables with proper separation of concerns
+- **Multi-Module Architecture**: Clear separation with domain, data, design-system, and common modules
+- **Reactive Programming**: Flow-based reactive UI with real-time database updates
+- **Dependency Injection**: Complete Dagger Hilt setup with proper module organization
+- **Convention Plugins**: Streamlined build configuration across modules
 
-Avoid using libraries that solve too much of the problem. General purpose libraries are definitely okay, but a library that
-calculates the layout for a multi-lane timeline is not, for example.
+### User Experience
+- **Intuitive Interactions**: FAB for adding, tap to edit, swipe to delete
+- **Immediate Feedback**: Optimistic UI updates with proper error handling
+- **Modern Design**: Material Design 3 with consistent design system components
+- **Responsive UI**: Shimmer loading states and smooth transitions
 
-## Scaffolding:
+### Technical Implementation
+- **Efficient Lane Algorithm**: Custom implementation that minimizes lane usage while handling overlapping events
+- **Type Safety**: Sealed classes for events and states, ensuring compile-time safety
+- **Performance**: Lazy loading with LazyColumn and efficient database queries
+- **Scalability**: Modular architecture that can easily accommodate new features
+- **Modular Design**: Each module has clear responsibilities and minimal coupling
 
-We include a basic app here to get you started. This app contains basic classes you can use to display your timeline, and it runs out of the box.
-Please consider this as just a suggestion, and a way to help you get started.
-If you dislike any architectural decisions, you're completely free to change and modify this code however you see fit, or even start completely fresh.
+## What I Would Change If Doing It Again
 
-You can start writing your timeline code in the `TimelineScreen` class; it contains a TODO comment where you should display the data in swimlanes, as described above.
+### Process Improvements
+1. **Start Simpler**: Begin with a basic MVP and incrementally add features
+2. **Bottom-Up Development**: Build domain layer first, then data, then presentation
+3. **Test-Driven Development**: Write unit tests from the beginning rather than post-implementation
+4. **Design First**: Spend more time on UI/UX design before implementation
 
-## Improvements:
+### Technical Decisions
+1. **Simpler Initial Architecture**: Start with basic repository pattern, then refactor to clean architecture
+2. **Phased Implementation**:
+   - Phase 1: Basic timeline display
+   - Phase 2: Lane assignment algorithm
+   - Phase 3: CRUD operations
+   - Phase 4: Advanced features
+3. **Progressive Enhancement**: Add Room DB and Dagger Hilt after core functionality works
+4. **Module Strategy**: Start with single module, then extract features as they stabilize
 
-After you have a basic read-only timeline app, here are some potential improvements to attempt as stretch goals:
+### Time Management
+- Reserve 30 minutes at the end for testing and polish
+- Use more incremental commits to track progress
+- Implement features in smaller, testable chunks
 
-- Allow edits of the events.
-- Allow zooming in and out of the timeline.
-- Allow dragging and dropping to change the start date and/or end date for an event.
-- Any other polish or useful enhancements you can think of.
+## Design Decisions
 
-Include a README that covers:
+### Visual Inspiration
+- **Microsoft Teams Timeline**: Used as primary inspiration for lane-based event display
+- **Material Design Guidelines**: Followed for consistent UI patterns and accessibility
 
-- How long you spent on the assignment.
-- What you like about your implementation.
-- What you would change if you were going to do it again.
-- How you made your design decisions. For example, if you looked at other timelines for inspiration, please note that.
-- How you would test this if you had more time.
-- Any special instructions on how to build/run your app.
+### Technical Choices
+1. **Lane Assignment Algorithm**: Custom implementation over third-party libraries to meet assignment requirements
+2. **Jetpack Compose**: Modern declarative UI for better maintainability
+3. **Room Database**: Local-first approach for offline capability and performance
+4. **MVVM-VI Pattern**: Event-driven architecture for predictable state management using SOLID principles
+5. **Flow-based Reactive Programming**: For real-time UI updates and clean data flow
+6. **Multi-Module Architecture**: Separation of concerns and improved build times
+7. **Convention Plugins**: Consistent build configuration across modules
 
-What we're looking for:
+### UI/UX Decisions
+- **Bottom Sheet for Editing**: Maintains context while providing full editing capabilities
+- **Swipe to Delete**: Follows Android conventions for intuitive gesture interactions
+- **Lane Labels**: Clear visual hierarchy with "Lane 1", "Lane 2" labels for easy comprehension
+- **Search Integration**: Immediate filtering for better user experience with large datasets
 
-- Clean, readable, maintainable code.
-- A sensible user experience and design for the final product.
+## Testing Strategy (If I Had More Time)
+
+### Completed Testing
+- **Manual Testing**: Comprehensive testing on physical device
+- **Unit Test Architecture**: Complete test suite for all layers (written post-submission)
+
+### Test Coverage Goals
+- **Domain Layer**: 100% coverage for use cases and business logic
+- **Data Layer**: Repository and database service testing with mocked dependencies
+- **Presentation Layer**: ViewModel state management and event handling
+- **UI Layer**: Critical user journeys and error scenarios
+
+## Build & Run Instructions
+
+### Prerequisites
+- Android Studio Arctic Fox or newer
+- JDK 11 or newer
+- Android SDK API 24+ (Android 7.0)
+
+### Setup Steps
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/LeonardoBai12/timeline-Kotlin
+   cd ~/{folder}/timeline-assignment
+   ```
+
+2. **Open in Android Studio**
+   - Open Android Studio
+   - Select "Open an existing project"
+   - Navigate to the cloned directory
+
+3. **Build and Run**
+   ```bash
+   # Build the project
+   ./gradlew build
+   
+   # Run tests
+   ./gradlew test
+   
+   # Install on connected device
+   ./gradlew installDebug
+   ```
+
+### No Special Configuration Required
+- The app uses standard Android build tools and dependencies
+- All required dependencies are specified in module `build.gradle.kts` files
+- Convention plugins handle common build configuration
+- Room database is created automatically on first run
+- No external services or API keys required
+
+## Project Structure
+
+This project uses a multi-module architecture with convention plugins for consistent build configuration:
+
+```
+settings.gradle.kts:
+include(":app")
+include(":libs:common") 
+include(":libs:data")
+include(":libs:design-system")
+include(":libs:domain")
+```
+
+### Module Organization
+
+```
+:app/
+└── src/main/kotlin/com/company/interview/schedule/
+    ├── presentation/
+    │   └── timeline/        # Timeline screen and ViewModel
+    ├── MainActivity.kt
+    └── ScheduleApplication.kt
+
+:libs:common/
+└── src/main/kotlin/io/lb/schedule/
+    ├── model/              # Shared domain models
+    └── util/               # Common utilities
+
+:libs:data/
+└── src/main/kotlin/io/lb/schedule/data/
+    ├── dao/               # Room DAOs
+    ├── database/          # Room database setup
+    ├── datasource/        # Data source implementations
+    ├── di/                # Data layer DI modules
+    ├── model/             # Room entities
+    ├── repository/        # Repository implementations
+    └── service/           # Database services
+
+:libs:design-system/
+└── src/main/kotlin/io/lb/schedule/
+    ├── components/        # Reusable UI components
+    └── ui/
+        └── theme/         # Material theming
+            ├── Color.kt
+            ├── Theme.kt
+            └── Type.kt
+
+:libs:domain/
+└── src/main/kotlin/io/lb/schedule/domain/
+    ├── di/                # Domain layer DI modules
+    ├── repository/        # Repository interfaces
+    └── usecase/           # Business logic use cases
+```
+
+### Module Dependencies
+
+- **:app** → depends on all libs modules
+- **:libs:data** → depends on :libs:domain, :libs:common (implements repository interfaces)
+- **:libs:domain** → depends on :libs:common
+- **:libs:design-system** → depends on :libs:common
+- **:libs:common** → no dependencies (base module)
+
+### Convention Plugins
+
+The project uses Gradle convention plugins to standardize build configuration across modules:
+- Common Android configuration
+- Compose setup
+- Hilt integration
+- Testing dependencies
+- Kotlin compiler options
+
+## Key Technical Achievements
+
+1. **Lane Assignment Algorithm**: Efficient O(n log n) algorithm for optimal lane usage
+2. **Reactive Architecture**: Complete Flow-based reactive programming implementation
+3. **Clean Architecture**: Proper dependency inversion with clear layer boundaries
+4. **Modern Android**: Latest Jetpack Compose, Room, and Hilt implementations
+5. **Type Safety**: Comprehensive use of sealed classes and type-safe navigation
+6. **Multi-Module Architecture**: Feature-based modules with clear separation of concerns
+7. **Build Optimization**: Convention plugins for consistent and maintainable build scripts
+
+## Learning Outcomes
+
+This assignment reinforced the importance of:
+- **Time-boxed Development**: Making pragmatic decisions under time constraints
+- **Architecture Planning**: The value of upfront architectural decisions
+- **Incremental Development**: Building in small, testable increments
+- **User-Centric Design**: Focusing on user experience over technical complexity
+- **Modular Design**: Benefits of feature-based modules for scalability and maintainability
+
+---
+
+*Built with Kotlin, Jetpack Compose, Room, and Dagger Hilt using multi-module architecture*
