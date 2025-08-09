@@ -2,6 +2,8 @@
 
 A timeline visualization app for displaying events in an efficient, space-optimized layout with full CRUD functionality.
 
+https://github.com/user-attachments/assets/5a520c99-926b-417b-b4af-8643932a452a
+
 ## Features
 
 - **Timeline Visualization**: Events displayed in space-efficient lanes using a custom lane assignment algorithm
