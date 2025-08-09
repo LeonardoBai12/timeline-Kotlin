@@ -27,6 +27,8 @@ dependencies {
     implementation(project(":libs:design-system"))
     implementation(project(":libs:data"))
     implementation(project(":libs:domain"))
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 }

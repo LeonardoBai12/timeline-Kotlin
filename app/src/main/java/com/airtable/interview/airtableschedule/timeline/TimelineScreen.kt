@@ -5,18 +5,29 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.airtable.interview.airtableschedule.models.TimelineEvent
+import com.airtable.interview.airtableschedule.models.TimelineState
+import com.airtable.interview.airtableschedule.models.TimelineUiEvent
 import io.lb.schedule.components.DefaultSearchBar
 import io.lb.schedule.components.EventAppBar
 import io.lb.schedule.components.EventEditBottomSheet
@@ -25,67 +36,125 @@ import io.lb.schedule.components.TimelineView
 import io.lb.schedule.model.Event
 import io.lb.schedule.ui.theme.ScheduleTheme
 import io.lb.schedule.util.filterBy
+import io.lb.schedule.util.showToast
+import kotlinx.coroutines.flow.Flow
+import java.util.Date
 
 /**
- * A screen that displays a timeline of events.
+ * Pure Timeline screen following your MVVM-VI pattern.
+ *
+ * @param state Current UI state
+ * @param eventFlow Flow of UI events from ViewModel
+ * @param onEvent Function to send events to ViewModel
  */
-@OptIn(ExperimentalMaterial3Api::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun TimelineScreen(
-    viewModel: TimelineViewModel = TimelineViewModel()
+    state: TimelineState,
+    eventFlow: Flow<TimelineUiEvent>,
+    onEvent: (TimelineEvent) -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
     val searchQuery = remember { mutableStateOf("") }
     var showEditBottomSheet by remember { mutableStateOf(false) }
     var selectedEvent by remember { mutableStateOf<Event?>(null) }
-    val filteredEvents = remember(uiState.events, searchQuery.value) {
+
+    LaunchedEffect(Unit) {
+        eventFlow.collect { event ->
+            when (event) {
+                is TimelineUiEvent.ShowError -> {
+                    context.showToast(event.message)
+                }
+                is TimelineUiEvent.ShowSuccess -> {
+                    context.showToast(event.message)
+                }
+                is TimelineUiEvent.EventSaved -> {
+                    // Event was saved successfully
+                }
+                is TimelineUiEvent.EventDeleted -> {
+                    // Event was deleted successfully
+                }
+            }
+        }
+    }
+
+    val filteredEvents = remember(state.events, searchQuery.value) {
         if (searchQuery.value.isEmpty()) {
-            uiState.events
+            state.events
         } else {
-            uiState.events.filterBy(searchQuery.value)
+            state.events.filterBy(searchQuery.value)
         }
     }
 
     ScheduleTheme {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)
-        ) {
-            EventAppBar(title = "Event Timeline")
-
-            DefaultSearchBar(
-                search = searchQuery,
-                modifier = Modifier.padding(16.dp),
-                hint = "Search events...",
-                onSearch = { /* Search is handled by state */ },
-                isEnabled = !uiState.isLoading
-            )
-
-            when {
-                uiState.isLoading -> {
-                    TimelineShimmerView(modifier = Modifier.fillMaxSize())
-                }
-                filteredEvents.isNotEmpty() -> {
-                    TimelineView(
-                        events = filteredEvents,
-                        onEventDelete = { event -> viewModel.deleteEvent(event.id) },
-                        onEventClick = { event ->
-                            selectedEvent = event
-                            showEditBottomSheet = true
-                        },
+        Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        selectedEvent = Event(
+                            id = 0,
+                            name = "",
+                            startDate = Date(),
+                            endDate = Date()
+                        )
+                        showEditBottomSheet = true
+                    },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add Event"
                     )
                 }
-                else -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = if (searchQuery.value.isEmpty()) "No events available" else "No events match your search",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .background(MaterialTheme.colorScheme.surface)
+            ) {
+                EventAppBar(title = "Event Timeline")
+
+                DefaultSearchBar(
+                    search = searchQuery,
+                    modifier = Modifier.padding(16.dp),
+                    hint = "Search events...",
+                    onSearch = { query ->
+                        // Send search event to ViewModel
+                        onEvent(TimelineEvent.SearchEvents(query))
+                    },
+                    isEnabled = !state.isLoading
+                )
+
+                when {
+                    state.isLoading -> {
+                        TimelineShimmerView(modifier = Modifier.fillMaxSize())
+                    }
+                    filteredEvents.isNotEmpty() -> {
+                        TimelineView(
+                            events = filteredEvents,
+                            onEventDelete = { event ->
+                                onEvent(TimelineEvent.DeleteEvent(event.id))
+                            },
+                            onEventClick = { event ->
+                                selectedEvent = event
+                                showEditBottomSheet = true
+                            },
                         )
+                    }
+                    else -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = if (searchQuery.value.isEmpty()) "No events available" else "No events match your search",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                 }
             }
@@ -99,11 +168,21 @@ fun TimelineScreen(
                     selectedEvent = null
                 },
                 onSaveEvent = { updatedEvent ->
-                    viewModel.updateEvent(updatedEvent)
+                    if (updatedEvent.id == 0) {
+                        onEvent(TimelineEvent.AddEvent(updatedEvent))
+                    } else {
+                        onEvent(TimelineEvent.UpdateEvent(updatedEvent))
+                    }
                     showEditBottomSheet = false
                     selectedEvent = null
                 }
             )
+        }
+
+        state.error?.let { error ->
+            LaunchedEffect(error) {
+                context.showToast(error)
+            }
         }
     }
 }
