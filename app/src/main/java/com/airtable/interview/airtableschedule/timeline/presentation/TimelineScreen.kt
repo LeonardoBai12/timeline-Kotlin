@@ -1,4 +1,4 @@
-package com.airtable.interview.airtableschedule.timeline
+package com.airtable.interview.airtableschedule.timeline.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,10 +24,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.airtable.interview.airtableschedule.models.TimelineEvent
-import com.airtable.interview.airtableschedule.models.TimelineState
-import com.airtable.interview.airtableschedule.models.TimelineUiEvent
+import com.airtable.interview.airtableschedule.timeline.presentation.model.TimelineEvent
+import com.airtable.interview.airtableschedule.timeline.presentation.model.TimelineState
+import com.airtable.interview.airtableschedule.timeline.presentation.model.TimelineUiEvent
 import io.lb.schedule.components.DefaultSearchBar
 import io.lb.schedule.components.EventAppBar
 import io.lb.schedule.components.EventEditBottomSheet

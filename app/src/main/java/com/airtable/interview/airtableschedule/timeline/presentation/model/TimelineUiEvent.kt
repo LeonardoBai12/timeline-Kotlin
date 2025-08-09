@@ -1,4 +1,4 @@
-package com.airtable.interview.airtableschedule.models
+package com.airtable.interview.airtableschedule.timeline.presentation.model
 
 sealed class TimelineUiEvent {
     data class ShowError(val message: String) : TimelineUiEvent()
