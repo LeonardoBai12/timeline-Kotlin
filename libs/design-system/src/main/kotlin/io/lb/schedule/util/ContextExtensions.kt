@@ -9,27 +9,6 @@ import io.lb.schedule.designsystem.R
 import java.util.Calendar
 import java.util.Locale
 
-fun Context.createTimePickerDialog(time: MutableState<String>, isDarkTheme: Boolean): TimePickerDialog {
-    val theme = if (isDarkTheme) {
-        R.style.Theme_DateDialogDark
-    } else {
-        R.style.Theme_DateDialogLight
-    }
-
-    return with(Calendar.getInstance(Locale.ENGLISH)) {
-        TimePickerDialog(
-            this@createTimePickerDialog,
-            theme,
-            { _, hour, minute ->
-                time.value = timeToString(hour, minute)
-            },
-            get(Calendar.HOUR_OF_DAY),
-            get(Calendar.MINUTE),
-            true
-        )
-    }
-}
-
 fun Context.createDatePickerDialog(
     date: MutableState<String>,
     isDarkTheme: Boolean

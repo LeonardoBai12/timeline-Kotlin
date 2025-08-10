@@ -5,7 +5,6 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import io.lb.schedule.data.database.EventDatabase
 import io.lb.schedule.data.datasource.EventDataSource

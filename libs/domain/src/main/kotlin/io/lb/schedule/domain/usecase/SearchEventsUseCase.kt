@@ -4,7 +4,6 @@ import io.lb.schedule.domain.repository.EventRepository
 import io.lb.schedule.model.Event
 import io.lb.schedule.util.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
