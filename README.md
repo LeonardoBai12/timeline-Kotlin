@@ -19,14 +19,6 @@ https://github.com/user-attachments/assets/5a520c99-926b-417b-b4af-8643932a452a
 
 **Total: Approximately 3 hours and 50 minutes****
 
-Breakdown:
-- Initial planning and architecture decisions: 30 minutes
-- Core timeline lane assignment algorithm: 45 minutes
-- UI implementation and design system integration: 90 minutes
-- Room database + Dagger Hilt setup: 45 minutes
-- CRUD functionality and bottom sheet implementation: 30 minutes
-- Testing on physical device and polish: 15 minutes
-
 **Note: Unit tests were written post-submission as a learning exercise.**
 
 ## What I Like About My Implementation
@@ -37,6 +29,7 @@ Breakdown:
 - **Reactive Programming**: Flow-based reactive UI with real-time database updates
 - **Dependency Injection**: Complete Dagger Hilt setup with proper module organization
 - **Convention Plugins**: Streamlined build configuration across modules
+- **Design System**: Shared UI components to keep consistent experience throughout the application
 
 ### User Experience
 - **Intuitive Interactions**: FAB for adding, tap to edit, swipe to delete
@@ -45,7 +38,6 @@ Breakdown:
 - **Responsive UI**: Shimmer loading states and smooth transitions
 
 ### Technical Implementation
-- **Efficient Lane Algorithm**: Custom implementation that minimizes lane usage while handling overlapping events
 - **Type Safety**: Sealed classes for events and states, ensuring compile-time safety
 - **Performance**: Lazy loading with LazyColumn and efficient database queries
 - **Scalability**: Modular architecture that can easily accommodate new features
@@ -55,17 +47,17 @@ Breakdown:
 
 ### Process Improvements
 1. **Start Simpler**: Begin with a basic MVP and incrementally add features
-2. **Bottom-Up Development**: Build domain layer first, then data, then presentation
-3. **Test-Driven Development**: Write unit tests from the beginning rather than post-implementation
-4. **Design First**: Spend more time on UI/UX design before implementation
+2. **Design First**: Spend more time on UI/UX design before implementation
+3. **More Screens:** Developing more screens would make the screen simpler - but it would cost me more time with navigation
+4. **Use Detekt since the beggining:** I should have used Detekt auto correction tools to save time with code style issues
 
 ### Technical Decisions
-1. **Simpler Initial Architecture**: Start with basic repository pattern, then refactor to clean architecture
+1. **Simpler Initial Architecture**: Start with basic repository pattern to reach a MVP, then refactor to clean architecture
 2. **Phased Implementation**:
    - Phase 1: Basic timeline display
    - Phase 2: Lane assignment algorithm
    - Phase 3: CRUD operations
-   - Phase 4: Advanced features
+   - Phase 4: Testing
 3. **Progressive Enhancement**: Add Room DB and Dagger Hilt after core functionality works
 4. **Module Strategy**: Start with single module, then extract features as they stabilize
 
@@ -90,7 +82,7 @@ Breakdown:
 7. **Convention Plugins**: Consistent build configuration across modules
 
 ### UI/UX Decisions
-- **Bottom Sheet for Editing**: Maintains context while providing full editing capabilities
+- **Bottom Sheet for Editing**: Maintains context while providing full editing capabilities - I could save some time with this approach
 - **Swipe to Delete**: Follows Android conventions for intuitive gesture interactions
 - **Lane Labels**: Clear visual hierarchy with "Lane 1", "Lane 2" labels for easy comprehension
 - **Search Integration**: Immediate filtering for better user experience with large datasets
@@ -218,13 +210,12 @@ The project uses Gradle convention plugins to standardize build configuration ac
 
 ## Key Technical Achievements
 
-1. **Lane Assignment Algorithm**: Efficient O(n log n) algorithm for optimal lane usage
-2. **Reactive Architecture**: Complete Flow-based reactive programming implementation
-3. **Clean Architecture**: Proper dependency inversion with clear layer boundaries
-4. **Modern Android**: Latest Jetpack Compose, Room, and Hilt implementations
-5. **Type Safety**: Comprehensive use of sealed classes and type-safe navigation
-6. **Multi-Module Architecture**: Feature-based modules with clear separation of concerns
-7. **Build Optimization**: Convention plugins for consistent and maintainable build scripts
+1. **Reactive Architecture**: Complete Flow-based reactive programming implementation
+2. **Clean Architecture**: Proper dependency inversion with clear layer boundaries
+3. **Modern Android**: Latest Jetpack Compose, Room, and Hilt implementation pattern
+4. **Type Safety**: Comprehensive use of sealed classes and type-safe navigation
+5. **Multi-Module Architecture**: Feature-based modules with clear separation of concerns
+6. **Build Optimization**: Convention plugins for consistent and maintainable build scripts
 
 ## Learning Outcomes
 
@@ -232,7 +223,6 @@ This assignment reinforced the importance of:
 - **Time-boxed Development**: Making pragmatic decisions under time constraints
 - **Architecture Planning**: The value of upfront architectural decisions
 - **Incremental Development**: Building in small, testable increments
-- **User-Centric Design**: Focusing on user experience over technical complexity
 - **Modular Design**: Benefits of feature-based modules for scalability and maintainability
 
 ---
